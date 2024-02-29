@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "api gateway with auth0"
 authors = ["Adam <adamjawor@gmail.com>"]
 readme = "README.md"
-packages = [{include = "fh_gateway"}]
 
 [tool.poetry.dependencies]
 python = "~3.11"
