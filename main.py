@@ -86,7 +86,7 @@ def logout(request: Request):
         + "/v2/logout?"
         + urlencode(
             {
-                "returnTo": request.build_absolute_uri("home"),
+                "returnTo": request.url_for("home"),
                 "client_id": AUTH0_CLIENT_ID,
             },
             quote_via=quote_plus,
