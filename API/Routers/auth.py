@@ -1,11 +1,12 @@
 from urllib.parse import quote_plus, urlencode
 
 from authlib.integrations.starlette_client import OAuth
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
 
 import settings
+from API.Routers.blocking import ProtectedEndpoint
 
 router = APIRouter()
 
@@ -19,15 +20,6 @@ oauth.register(
     },
     server_metadata_url=f"https://{settings.AUTH0_DOMAIN}/.well-known/openid-configuration",
 )
-
-
-def ProtectedEndpoint(request: Request):
-    if not "id_token" in request.session:
-        raise HTTPException(
-            status_code=status.HTTP_307_TEMPORARY_REDIRECT,
-            detail="Not authorized",
-            headers={"Location": "/login"},
-        )
 
 
 @router.get("/")
