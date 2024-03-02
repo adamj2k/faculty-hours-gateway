@@ -4,7 +4,7 @@ from fastapi.security import HTTPBearer
 from starlette.middleware.sessions import SessionMiddleware
 
 import settings
-from API.Routers import auth
+from API.routers import auth
 
 token_auth_scheme = HTTPBearer()
 
