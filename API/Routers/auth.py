@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
 
 import settings
-from API.Routers.blocking import ProtectedEndpoint
+from API.routers.blocking import ProtectedEndpoint
 
 router = APIRouter()
 
