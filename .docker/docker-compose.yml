@@ -1,0 +1,19 @@
+version: '3.9'
+name: faculty-hours-gateway
+services:
+  web:
+    environment:
+      - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
+      - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
+      - AUTH0_DOMAIN=${AUTH0_DOMAIN}
+      - AUTH0_ALGORITHMS=${AUTH0_ALGORITHMS}
+      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
+      - AUTH0_SESSION_SECRET=${AUTH0_SESSION_SECRET}
+      - AUTH0_LOGIN=${AUTH0_LOGIN}
+    build:
+      context: ..
+      dockerfile: ./.docker/Dockerfile
+    volumes:
+      - ../:/app/
+    ports:
+      - "8000:8000"
