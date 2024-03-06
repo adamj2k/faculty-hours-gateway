@@ -14,4 +14,4 @@ COPY ./ /app/
 RUN poetry config virtualenvs.create false \
     &&poetry install
 
-CMD ["python3", "./main.py"]
+CMD ["python3", "./gateway/main.py"]
