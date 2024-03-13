@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 token_auth_scheme = HTTPBearer()
 
+
 app = FastAPI()
 
 app.add_middleware(SessionMiddleware, secret_key=settings.AUTH0_SESSION_SECRET)

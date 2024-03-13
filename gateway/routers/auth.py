@@ -7,7 +7,10 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
 from routers.blocking import ProtectedEndpoint
 
+from .blocking import VerifyToken
+
 router = APIRouter()
+auth = VerifyToken()
 
 oauth = OAuth()
 oauth.register(
