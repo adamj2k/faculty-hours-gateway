@@ -10,6 +10,7 @@ services:
       - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
       - AUTH0_SESSION_SECRET=${AUTH0_SESSION_SECRET}
       - AUTH0_LOGIN=${AUTH0_LOGIN}
+      - FH_APP_FACULTY_URL=${FH_APP_FACULTY_URL}
     build:
       context: ..
       dockerfile: ./.docker/Dockerfile
@@ -17,3 +18,11 @@ services:
       - ../:/app/
     ports:
       - "8000:8000"
+    networks:
+      - gateway_network
+      - common_network
+networks:
+  gateway_network:
+    driver: bridge
+  common_network:
+    external: true
