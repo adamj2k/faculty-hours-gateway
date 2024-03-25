@@ -17,3 +17,11 @@ services:
       - ../:/app/
     ports:
       - "8000:8000"
+    networks:
+      - gateway_network
+      - common_network
+networks:
+  gateway_network:
+    driver: bridge
+  common_network:
+    external: true
