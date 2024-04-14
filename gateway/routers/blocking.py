@@ -51,7 +51,7 @@ class VerifyToken:
                 signing_key,
                 algorithms=settings.AUTH0_ALGORITHMS,
                 audience=settings.AUTH0_AUDIENCE,
-                issuer=settings.AUTH0_DOMAIN,
+                issuer=settings.AUTH0_ISSUER,
             )
         except Exception as error:
             raise UnauthorizedException(str(error))
