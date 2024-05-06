@@ -17,9 +17,9 @@ async def get_subjects(auth_result: str = Security(auth.verify)):
     return all_teachers
 
 
-@router.post("/create-teacher")
+@router.post("/create_teacher")
 async def create_teacher(teacher: dict, auth_result: str = Security(auth.verify)):
-    api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/create-teacher"
+    api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/teacher/create"
     new_teacher = requests.post(api_url, json=teacher).json()
     return new_teacher
 
