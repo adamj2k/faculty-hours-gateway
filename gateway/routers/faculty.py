@@ -10,15 +10,16 @@ router = APIRouter()
 auth = VerifyToken()
 
 
-@router.get("/get_teachers")
+@router.get("/get-teachers")
 async def get_subjects(auth_result: str = Security(auth.verify)):
-    api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/teachers"
+    api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/teachers/list"
     all_teachers = requests.get(api_url).json()
     return all_teachers
 
 
-@router.post("/create_teacher")
+@router.post("/create-teacher")
 async def create_teacher(teacher: dict, auth_result: str = Security(auth.verify)):
+    auth.check_role(auth_result, "Administrator")
     api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/teacher/create"
     new_teacher = requests.post(api_url, json=teacher).json()
     return new_teacher

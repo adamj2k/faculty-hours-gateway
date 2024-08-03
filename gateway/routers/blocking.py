@@ -57,3 +57,8 @@ class VerifyToken:
             raise UnauthorizedException(str(error))
 
         return payload
+
+    def check_role(self, payload: dict, required_role: str):
+        if required_role not in payload.get("roles"):
+            raise UnauthorizedException
+        return True
