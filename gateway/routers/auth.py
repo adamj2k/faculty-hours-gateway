@@ -1,11 +1,12 @@
 from urllib.parse import quote_plus, urlencode
 
-import settings
 from authlib.integrations.starlette_client import OAuth
 from fastapi import APIRouter, Depends, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse
-from routers.blocking import ProtectedEndpoint
+
+from gateway import settings
+from gateway.routers.blocking import ProtectedEndpoint
 
 router = APIRouter()
 

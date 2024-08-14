@@ -1,9 +1,10 @@
 from typing import Optional
 
 import jwt
-import settings
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer, SecurityScopes
+
+from gateway import settings
 
 
 class UnauthorizedException(HTTPException):
@@ -58,7 +59,11 @@ class VerifyToken:
 
         return payload
 
+    def verify_with_admin(self):
+        payload = self.verify()
+        self.check_role(payload, "Administrator")
+
     def check_role(self, payload: dict, required_role: str):
-        if required_role not in payload.get("roles"):
-            raise UnauthorizedException
+        if required_role not in payload.get(f"http://{settings.HOST}/roles"):
+            raise UnauthorizedException(str("Not authorized"))
         return True
