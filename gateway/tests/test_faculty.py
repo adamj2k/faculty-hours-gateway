@@ -15,9 +15,11 @@ def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
     print("Mock verify token called with scopes:", security_scopes.scopes, "and token:", token)
     result = {"sub": "mocked_user_id", "scope": "read:lectures"}
     print("Mock verify token result:", result)
+    print("Mock verify token result:", result)
     return result
 
 app.dependency_overrides[VerifyToken.verify] = mock_verify_token
+print("Dependency override applied for VerifyToken.verify")
 print("Dependency override applied for VerifyToken.verify")
 
 @pytest.mark.asyncio
