@@ -36,14 +36,11 @@ class TestGetTeacher(unittest.TestCase):
         self.payload = mock_payload
         self.mock_verify = MagicMock()
         self.mock_verify.verify.return_value = self.payload
-        self.mock_verify.jwks_client.get_signing_key_from_jwt.return_value.key = "dummy_signing_key"
+        self.mock_verify.jwks_client.get_signing_key_from_jwt.return_value = MagicMock(key="dummy_signing_key")
         app.dependency_overrides[VerifyToken] = self.mock_verify
 
-    @patch("gateway.routers.faculty.VerifyToken.verify")
     @patch("requests.get")
-    def test_get_teacher_success(self, mock_get, mock_verify):
-        mock_verify.return_value = self.payload
-        mock_verify.verify.return_value = self.payload
+    def test_get_teacher_success(self, mock_get):
         mock_response = MagicMock()
         mock_response.json.return_value = {"name": "John", "last_name": "Doe", "id": 1}
         mock_get.return_value = mock_response
