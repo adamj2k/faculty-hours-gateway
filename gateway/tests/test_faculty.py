@@ -1,13 +1,17 @@
 import pytest
 from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
-from gateway.routers.faculty import router, VerifyToken
+from gateway.routers.faculty import router
+from gateway.routers.blocking import VerifyToken
+from unittest.mock import patch
 from fastapi import Security
 from fastapi.security import HTTPBearer
 
 
 app = FastAPI()
-app.include_router(router, prefix="/faculty")
+# Mock the VerifyToken dependency
+with patch.object(VerifyToken, 'verify', new=mock_verify_token):
+    app.include_router(router, prefix="/faculty")
 
 # Mock the VerifyToken dependency
 def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
