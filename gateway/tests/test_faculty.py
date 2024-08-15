@@ -1,5 +1,5 @@
 import pytest
-from httpx import AsyncClient
+from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
 from gateway.routers.faculty import router, VerifyToken
 from fastapi import Depends
@@ -16,7 +16,7 @@ app.dependency_overrides[VerifyToken().verify] = mock_verify_token
 
 @pytest.mark.asyncio
 async def test_get_lecture():
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/faculty/lecture/1")
     assert response.status_code == 200
     assert "id" in response.json()
