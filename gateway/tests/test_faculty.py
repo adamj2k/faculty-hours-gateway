@@ -9,7 +9,7 @@ app = FastAPI()
 app.include_router(router, prefix="/faculty")
 
 # Mock the VerifyToken dependency
-def mock_verify_token(security_scopes, token):
+def mock_verify_token(security_scopes, token=Depends(HTTPBearer())):
     print("Mock verify token called")
     return {"sub": "mocked_user_id", "scope": "read:lectures"}
 
