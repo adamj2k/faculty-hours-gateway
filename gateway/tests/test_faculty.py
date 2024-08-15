@@ -3,6 +3,7 @@ from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
 from gateway.routers.faculty import router, VerifyToken
 from fastapi import Depends
+from fastapi.security import HTTPBearer
 
 
 app = FastAPI()
