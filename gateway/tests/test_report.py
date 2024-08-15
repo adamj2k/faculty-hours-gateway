@@ -40,7 +40,7 @@ class TestGetTeacher(unittest.TestCase):
     @patch("gateway.routers.faculty.VerifyToken.verify")
     @patch("requests.get")
     def test_get_teacher_success(self, mock_get, mock_verify):
-        mock_verify.jwks_client.get_signing_key_from_jwt.return_value.key = "dummy_signing_key"
+        mock_verify.return_value = self.payload
         mock_verify.verify.return_value = self.payload
         mock_response = MagicMock()
         mock_response.json.return_value = {"name": "John", "last_name": "Doe", "id": 1}
