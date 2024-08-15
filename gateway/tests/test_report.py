@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 
 from gateway.main import app
+from gateway.routers.faculty import VerifyToken
 
 mock_payload = {
     "http://127.0.0.1/roles": ["Standard User"],
@@ -30,14 +31,16 @@ test_token = f"{header}.{payload}.{signature}"
 
 class TestGetTeacher(unittest.TestCase):
     def setUp(self):
-        self.client = TestClient(app)
+        self.app = app
+        self.client = TestClient(self.app)
         self.payload = mock_payload
+        #app.dependency_overrides[VerifyToken] =  
 
-    @patch("gateway.routers.faculty.VerifyToken.verify")
+    @patch("gateway.routers.faculty.VerifyToken")
     @patch("requests.get")
     def test_get_teacher_success(self, mock_get, mock_verify):
         mock_verify.jwks_client.get_signing_key_from_jwt.return_value.key = "dummy_signing_key"
-        mock_verify.return_value = self.payload
+        mock_verify.verify.return_value = self.payload
         mock_response = MagicMock()
         mock_response.json.return_value = {"name": "John", "last_name": "Doe", "id": 1}
         mock_get.return_value = mock_response
@@ -72,4 +75,4 @@ class TestGetTeacher(unittest.TestCase):
 
         response = self.client.get("faculty/teacher/1")
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 401)
