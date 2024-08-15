@@ -36,6 +36,7 @@ class TestGetTeacher(unittest.TestCase):
         self.mock_verify = MagicMock()
         self.mock_verify.verify.return_value = self.payload
         self.mock_verify.jwks_client.get_signing_key_from_jwt.return_value = MagicMock(key="dummy_signing_key")
+        self.mock_verify.verify.return_value = mock_payload
         app.dependency_overrides[VerifyToken] = lambda: self.mock_verify
 
     @patch("requests.get")

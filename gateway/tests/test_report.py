@@ -37,6 +37,7 @@ class TestGetTeacher(unittest.TestCase):
         self.mock_verify = MagicMock()
         self.mock_verify.verify.return_value = self.payload
         self.mock_verify.jwks_client.get_signing_key_from_jwt.return_value = MagicMock(key="dummy_signing_key")
+        self.mock_verify.verify.return_value = mock_payload
         app.dependency_overrides[VerifyToken] = lambda: self.mock_verify
 
     @patch("requests.get")
@@ -60,9 +61,8 @@ class TestGetTeacher(unittest.TestCase):
         print(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"name": "John", "last_name": "Doe", "id": 1})
-    def test_get_teacher_invalid_id(self, mock_verify):
-        mock_verify.return_value = mock_payload
-        response = self.client.get("faculty/teacher/abc")
+    def test_get_teacher_invalid_id(self):
+        response = self.client.get("faculty/teacher/abc", headers={"Authorization": f"Bearer {test_token}"})
 
         self.assertEqual(response.status_code, 422)
 
