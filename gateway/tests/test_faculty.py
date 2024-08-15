@@ -13,7 +13,7 @@ def mock_verify_token():
     print("Mock verify token called")
     return {"sub": "mocked_user_id", "scope": "read:lectures"}
 
-app.dependency_overrides[VerifyToken().verify] = mock_verify_token
+app.dependency_overrides[VerifyToken.verify] = mock_verify_token
 
 @pytest.mark.asyncio
 async def test_get_lecture():
