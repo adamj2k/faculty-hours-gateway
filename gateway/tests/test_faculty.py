@@ -2,7 +2,7 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
 from gateway.routers.faculty import router, VerifyToken
-from fastapi import Depends
+from fastapi import Security
 from fastapi.security import HTTPBearer
 
 
@@ -10,7 +10,7 @@ app = FastAPI()
 app.include_router(router, prefix="/faculty")
 
 # Mock the VerifyToken dependency
-def mock_verify_token(security_scopes, token=Depends(HTTPBearer())):
+def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
     print("Mock verify token called")
     return {"sub": "mocked_user_id", "scope": "read:lectures"}
 
