@@ -8,8 +8,14 @@ from fastapi import Security
 from fastapi.security import HTTPBearer
 
 
-app = FastAPI()
 # Mock the VerifyToken dependency
+def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
+    print("Mock verify token called with scopes:", security_scopes.scopes, "and token:", token)
+    result = {"sub": "mocked_user_id", "scope": "read:lectures"}
+    print("Mock verify token result:", result)
+    return result
+
+app = FastAPI()
 with patch.object(VerifyToken, 'verify', new=mock_verify_token):
     app.include_router(router, prefix="/faculty")
 
