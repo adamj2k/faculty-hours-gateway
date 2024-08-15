@@ -49,7 +49,6 @@ async def update_teacher(id: int, teacher: dict, auth_result: str = Security(Ver
 @router.get("/lecture/{id}")
 async def get_lecture(id: int, auth_result: str = Security(VerifyToken().verify)):
     print("Auth result in get_lecture:", auth_result)
-    print("Security scopes in get_lecture:", Security(VerifyToken().verify).scopes)
     api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/lecture/{id}"
     lecture = requests.get(api_url).json()
     return lecture

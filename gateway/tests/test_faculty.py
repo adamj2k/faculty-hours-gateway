@@ -12,7 +12,9 @@ app.include_router(router, prefix="/faculty")
 # Mock the VerifyToken dependency
 def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
     print("Mock verify token called with scopes:", security_scopes.scopes, "and token:", token)
-    return {"sub": "mocked_user_id", "scope": "read:lectures"}
+    result = {"sub": "mocked_user_id", "scope": "read:lectures"}
+    print("Mock verify token result:", result)
+    return result
 
 app.dependency_overrides[VerifyToken.verify] = mock_verify_token
 
