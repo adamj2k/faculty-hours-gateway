@@ -36,6 +36,7 @@ class TestGetTeacher(unittest.TestCase):
         self.payload = mock_payload
         self.mock_verify = MagicMock()
         self.mock_verify.verify.return_value = self.payload
+        self.mock_verify.jwks_client.get_signing_key_from_jwt.return_value.key = "dummy_signing_key"
         app.dependency_overrides[VerifyToken] = self.mock_verify
 
     @patch("gateway.routers.faculty.VerifyToken.verify")
