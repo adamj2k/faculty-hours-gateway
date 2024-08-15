@@ -34,7 +34,8 @@ class TestGetTeacher(unittest.TestCase):
         self.app = app
         self.client = TestClient(self.app)
         self.payload = mock_payload
-        app.dependency_overrides[VerifyToken] = mock_verify
+        self.mock_verify = MagicMock()
+        app.dependency_overrides[VerifyToken] = self.mock_verify
 
     @patch("gateway.routers.faculty.VerifyToken.verify")
     @patch("requests.get")
