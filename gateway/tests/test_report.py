@@ -50,7 +50,16 @@ class TestGetTeacher(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"name": "John", "last_name": "Doe", "id": 1})
 
-    @patch("gateway.routers.faculty.VerifyToken.verify")
+    @patch("requests.get")
+    def test_get_teacher_success(self, mock_get):
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"name": "John", "last_name": "Doe", "id": 1}
+        mock_get.return_value = mock_response
+
+        response = self.client.get("faculty/teacher/1", headers={"Authorization": f"Bearer {test_token}"})
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"name": "John", "last_name": "Doe", "id": 1})
     def test_get_teacher_invalid_id(self, mock_verify):
         mock_verify.return_value = mock_payload
         response = self.client.get("faculty/teacher/abc")
