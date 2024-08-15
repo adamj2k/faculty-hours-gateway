@@ -1,7 +1,14 @@
 import pytest
 from httpx import AsyncClient
 from fastapi import FastAPI
-from gateway.routers.faculty import router
+from gateway.routers.faculty import router, VerifyToken
+from fastapi import Depends
+
+# Mock the VerifyToken dependency
+def mock_verify_token():
+    return "mocked_auth_result"
+
+app.dependency_overrides[VerifyToken().verify] = mock_verify_token
 
 app = FastAPI()
 app.include_router(router, prefix="/faculty")
