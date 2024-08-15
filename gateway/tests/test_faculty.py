@@ -8,18 +8,9 @@ from fastapi import Security
 from fastapi.security import HTTPBearer
 
 
-# Mock the VerifyToken dependency
-def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
-    print("Mock verify token called with scopes:", security_scopes.scopes, "and token:", token)
-    result = {"sub": "mocked_user_id", "scope": "read:lectures"}
-    print("Mock verify token result:", result)
-    return result
-
 app = FastAPI()
-with patch.object(VerifyToken, 'verify', new=mock_verify_token):
-    app.include_router(router, prefix="/faculty")
+app.include_router(router, prefix="/faculty")
 
-# Mock the VerifyToken dependency
 def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
     print("Mock verify token called with scopes:", security_scopes.scopes, "and token:", token)
     result = {"sub": "mocked_user_id", "scope": "read:lectures"}
@@ -27,6 +18,7 @@ def mock_verify_token(security_scopes, token=Security(HTTPBearer())):
     return result
 
 app.dependency_overrides[VerifyToken.verify] = mock_verify_token
+print("Dependency override applied for VerifyToken.verify")
 
 @pytest.mark.asyncio
 async def test_get_lecture():
