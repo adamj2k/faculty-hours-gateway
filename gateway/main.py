@@ -1,10 +1,11 @@
-import settings
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
-from routers import auth, faculty
 from starlette.middleware.sessions import SessionMiddleware
+
+from gateway import settings
+from gateway.routers import auth, faculty
 
 token_auth_scheme = HTTPBearer()
 
