@@ -26,7 +26,6 @@ async def create_teacher(teacher: dict, auth_result: str = Security(VerifyToken(
 
 @router.get("/teacher/{id}")
 async def get_teacher(id: int, auth_result: str = Security(VerifyToken().verify)):
-    print(auth_result)
     api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/teacher/{id}"
     teacher = requests.get(api_url).json()
     return teacher
@@ -48,9 +47,6 @@ async def update_teacher(id: int, teacher: dict, auth_result: str = Security(Ver
 
 @router.get("/lecture/{id}")
 async def get_lecture(id: int, auth_result: str = Security(VerifyToken().verify)):
-    print("Auth result in get_lecture:", auth_result)
-    print("Auth result in get_lecture:", auth_result)
-    print("Auth result in get_lecture:", auth_result)
     api_url = f"http://{settings.FH_APP_FACULTY_URL}/faculty/lecture/{id}"
     print("Requesting lecture from API:", api_url)
     lecture = requests.get(api_url).json()
