@@ -22,19 +22,14 @@ class MonthPayrollsQuery:
 
     @strawberry.field
     def get_month_payrolls(self, year: int, month: int) -> MonthPayroll:
-        query = """
-        query getMonthPayrolls($year: Int!, $month: Int!) {
-            getMonthPayrolls(year: $year, month: $month) {
-                id
-                teacher_id
-                teacher_name
-            }
-        }
         """
-        variables = {"year": year, "month": month}
-        response = requests.get(
-            f"{settings.FH_APP_REPORT_URL}/payrolls/{year}/{month}",
-        )
-        if response.status_code != 200:
-            raise HTTPException(status_code=500, detail="Error getting month payrolls")
-        return MonthPayroll(**response.json())
+        Get payroll data for the specified year and month from payrolls service.
+        """
+        try:
+            payrolls_api_url = f"http://{settings.FH_APP_PAYROLLS_URL}/payrolls/month-payrolls/{year}/{month}"
+            response = requests.get(payrolls_api_url)
+            if response.status_code != 200:
+                raise HTTPException(status_code=response.status_code, detail="Error getting month payrolls")
+            return MonthPayroll(**response.json())
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error getting month payrolls: {str(e)}")
