@@ -14,7 +14,9 @@ from gateway.routers.report import router as report_router
 
 token_auth_scheme = HTTPBearer()
 schema = strawberry.Schema(query=MonthPayrollsQuery)
-graphql_app = strawberry.fastapi.GraphQLRouter(schema)
+graphql_app = strawberry.fastapi.GraphQLRouter(
+    schema, graphiql=True, allow_queries_via_get=True, context_getter=lambda: {"request": None}
+)
 app = FastAPI()
 
 origins = [
@@ -37,6 +39,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
